@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "user_intake": {
+    "budget_million_vnd": {
+      "min": 300,
+      "max": 500
+    },
+    "family_size": 5,
+    "usage": "family",
+    "distance": "medium",
+    "km_per_month": 1500,
+    "priority": ["space", "comfort"]
+  },
+  "vehicles": [
+    {
+      "id": "vf8",
+      "display_name": "VF 8",
+      "segment": "D-SUV",
+      "body_style": "SUV",
+      "seats": 7,
+      "colors": ["Jet Black", "Deep Ocean", "Brahminy White"],
+      "price_list_million_vnd": 528,
+      "price_promo_million_vnd": 490,
+      "currency": "VND",
+      "battery_kwh": 87.7,
+      "wltp_range_km": 400,
+      "dc_fast_charge_kw": 150,
+      "features_highlights": ["ADAS", "Panoramic roof", "OTA"],
+      "tags": ["family", "space", "long_trip"]
+    }
+  ],
+  "recommendation_output_example": {
+    "top3": [
+      {
+        "id": "vf8",
+        "score": 92,
+        "budget_safe": true,
+        "over_budget_warning": false
+      }
+    ],
+    "safe_budget_option_id": "vf8"
+  },
+  "calculator_input_example": {
+    "vehicle_id": "vf8",
+    "tenure_months": 36,
+    "annual_interest_rate": 0.1,
+    "down_payment_percent": 20,
+    "electricity_vnd_per_kwh": 3500,
+    "km_per_month": 1500,
+    "kwh_per_100km": 22
+  },
+  "lead_payload_example": {
+    "name": "Nguyen Van A",
+    "phone": "+84901234567",
+    "email": "a@example.com",
+    "wants_test_drive": true,
+    "preferred_vehicle_id": "vf8",
+    "notes": "Weekend slot"
+  }
+}

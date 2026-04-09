@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auth + navigation mock</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:1rem}
+button{margin-right:.5rem}
+</style>
+</head>
+<body>
+<h1>Auth mock</h1>
+<button type="button" id="guest">Continue as guest</button>
+<button type="button" id="fakeLogin">Fake login</button>
+<button type="button" id="logout" hidden>Logout</button>
+<p id="status">guest</p>
+<p><a id="toChat" href="../01_frontend_chat_ui/chat_shell.html">Go to chat</a></p>
+<script>
+const KEY = "lab6_zone3_token";
+function setStatus(t){ document.getElementById("status").textContent = t; }
+document.getElementById("guest").onclick = () => {
+  sessionStorage.setItem(KEY, "guest");
+  setStatus("guest session");
+};
+document.getElementById("fakeLogin").onclick = () => {
+  localStorage.setItem(KEY, "fake-jwt-" + Date.now());
+  setStatus("logged in (mock)");
+  document.getElementById("logout").hidden = false;
+};
+document.getElementById("logout").onclick = () => {
+  localStorage.removeItem(KEY);
+  setStatus("logged out");
+  document.getElementById("logout").hidden = true;
+};
+if (localStorage.getItem(KEY)) {
+  setStatus("logged in (mock)");
+  document.getElementById("logout").hidden = false;
+}
+</script>
+</body>
+</html>
