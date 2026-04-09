@@ -45,7 +45,8 @@ class VinFastRecommendationEngine:
             ]
             return comfort_vehicles if comfort_vehicles else vehicles
         if demand == "family":
-            return [v for v in vehicles if v["seats"] >= 6]
+            hit = [v for v in vehicles if v["seats"] >= 6]
+            return hit if hit else vehicles
         if demand == "performance":
             return [v for v in vehicles if v.get("motor_power_hp", 0) > 30]
         if demand == "eco":
@@ -62,18 +63,32 @@ class VinFastRecommendationEngine:
     ) -> float:
         if priority is None:
             priority = {
-                "price": 0.25,
-                "comfort": 0.20,
+                "price": 0.15,
+                "comfort": 0.25,
                 "performance": 0.20,
-                "efficiency": 0.15,
-                "range": 0.20,
+                "efficiency": 0.10,
+                "range": 0.30,
             }
         score = 0.0
-        price_ratio = vehicle["price_million"] / max(budget_million, 1)
-        price_score = max(0, 100 - price_ratio * 100)
-        score += price_score * priority.get("price", 0.25)
+        budget = max(int(budget_million or 1), 1)
+        price = float(vehicle.get("price_million", 0) or 0)
+        r = price / float(budget)
+        if r > 1.05:
+            price_score = 0.0
+        else:
+            target = 0.75
+            dist = abs(r - target) / target
+            price_score = 100.0 * (1.0 - dist)
+            if r < 0.25:
+                price_score -= 25.0
+            if r < 0.4:
+                price_score -= 10.0
+            if 0.92 <= r <= 1.02:
+                price_score += 12.0
+            price_score = max(0.0, min(100.0, price_score))
+        score += price_score * priority.get("price", 0.15)
         comfort_score = min(100, len(vehicle.get("features", [])) * 10)
-        score += comfort_score * priority.get("comfort", 0.20)
+        score += comfort_score * priority.get("comfort", 0.25)
         power = vehicle.get("motor_power_hp", 0)
         perf_score = min(100, (power / 70) * 100)
         score += perf_score * priority.get("performance", 0.20)
@@ -84,13 +99,24 @@ class VinFastRecommendationEngine:
             monthly_cost = vehicle.get("monthly_charging_cost_vnd", 1000000)
             efficiency_score = max(0, 100 - (monthly_cost / 2000000) * 100)
         efficiency_score = min(100, efficiency_score)
-        score += efficiency_score * priority.get("range", priority.get("efficiency", 0.20))
-        if vehicle["seats"] >= min_seats:
-            score += 10
+        score += efficiency_score * priority.get("range", priority.get("efficiency", 0.30))
+
+        seat_delta = int(vehicle.get("seats", 0) or 0) - int(min_seats or 1)
+        if seat_delta >= 0:
+            score += 8 + min(12, seat_delta * 2)
         elif vehicle["type"] == "motobike":
             score -= 5
         else:
             score -= 15
+
+        d = str(demand or "balanced").lower()
+        if d == "eco" and range_km >= 250:
+            score += 6
+        if d == "comfort" and len(vehicle.get("features", [])) >= 8:
+            score += 4
+        if d == "performance" and power >= 45:
+            score += 4
+
         pros_count = len(vehicle.get("pros", []))
         cons_count = len(vehicle.get("cons", []))
         score += pros_count * 2
@@ -148,8 +174,8 @@ class VinFastRecommendationEngine:
 
 def priority_from_profile(priorities: list[str]) -> Dict[str, float]:
     base = {
-        "price": 0.2,
-        "comfort": 0.2,
+        "price": 0.15,
+        "comfort": 0.25,
         "performance": 0.2,
         "efficiency": 0.1,
         "range": 0.3,
@@ -175,7 +201,7 @@ def priority_from_profile(priorities: list[str]) -> Dict[str, float]:
 
 def usage_to_demand(usage: str) -> str:
     u = str(usage).lower()
-    if "gia" in u or "family" in u:
+    if "gia dinh" in u or "family" in u:
         return "family"
     if "xa" in u or "long" in u or "du_lich" in u:
         return "eco"

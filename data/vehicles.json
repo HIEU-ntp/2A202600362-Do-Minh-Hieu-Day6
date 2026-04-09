@@ -293,51 +293,6 @@
       ]
     },
     {
-      "model": "VF Wild",
-      "variant": "Standard",
-      "segment": "Minicar (xe điện mini đô thị)",
-      "price_million": 0,
-      "type": "car",
-      "url": "https://vinfastvietnam.com.vn/product/vinfast-vf-wild/",
-      "color": [
-        "Đỏ"
-      ],
-      "seats": 5,
-      "battery_kwh": 18.64,
-      "range_km": 215,
-      "motor_power_hp": 0,
-      "drivetrain": "",
-      "dimensions": "3.190 x 1.679 x 1.622 mm",
-      "trunk_liters": 0,
-      "charging_time_dc": "khoảng 30 - 36 phút",
-      "charging_time_ac": "",
-      "monthly_charging_cost_vnd": 800000,
-      "family_size_min": 1,
-      "family_size_max": 5,
-      "use_cases": [
-        "đi phố",
-        "di chuyển hàng ngày",
-        "gia đình"
-      ],
-      "features": [
-        "Sạc nhanh 10-70%: khoảng 30 - 36 phút",
-        "Bảo hành xe: 7 năm hoặc 160.000 km",
-        "Bảo hành pin: 8 năm hoặc 160.000 km",
-        "Chiều dài cơ sở: 2.075 mm",
-        "Màu sắc: Đỏ"
-      ],
-      "pros": [
-        "5 chỗ ngồi",
-        "Tầm hoạt động khoảng 215 km/lần sạc",
-        "Hỗ trợ sạc nhanh khoảng 30 - 36 phút",
-        "Bảo hành xe 7 năm hoặc 160.000 km"
-      ],
-      "cons": [
-        "Thiếu thông tin tiền cọc trong nguồn dữ liệu",
-        "Nhiều thông số cần kiểm chứng lại từ nguồn chính thức"
-      ]
-    },
-    {
       "model": "VF MPV 7",
       "variant": "Standard",
       "segment": "Minicar (xe điện mini đô thị)",

@@ -34,7 +34,10 @@ function filterByDemand(list, demand) {
     );
     return hit.length ? hit : list;
   }
-  if (d === "family") return list.filter((v) => v.seats >= 6);
+  if (d === "family") {
+    const hit = list.filter((v) => (v.seats || 0) >= 6);
+    return hit.length ? hit : list;
+  }
   if (d === "performance") return list.filter((v) => (v.motor_power_hp || 0) > 30);
   if (d === "eco") return list.filter((v) => (v.range_km || 0) >= 150);
   return list;
@@ -42,18 +45,18 @@ function filterByDemand(list, demand) {
 
 function defaultPriority() {
   return {
-    price: 0.25,
-    comfort: 0.2,
+    price: 0.15,
+    comfort: 0.25,
     performance: 0.2,
-    efficiency: 0.15,
-    range: 0.2,
+    efficiency: 0.1,
+    range: 0.3,
   };
 }
 
 export function priorityFromProfile(priorities) {
   const base = {
-    price: 0.2,
-    comfort: 0.2,
+    price: 0.15,
+    comfort: 0.25,
     performance: 0.2,
     efficiency: 0.1,
     range: 0.3,
@@ -86,7 +89,7 @@ export function priorityFromProfile(priorities) {
 
 export function usageToDemand(usage) {
   const u = String(usage).toLowerCase();
-  if (u.includes("gia") || u.includes("family")) return "family";
+  if (u.includes("gia dinh") || u.includes("family")) return "family";
   if (u.includes("xa") || u.includes("long") || u.includes("du")) return "eco";
   if (u.includes("business") || u.includes("cong tac") || u.includes("công tác")) {
     return "comfort";
@@ -95,14 +98,27 @@ export function usageToDemand(usage) {
   return "balanced";
 }
 
+function budgetFitScore(priceMillion, budgetMillion) {
+  const budget = Math.max(1, Number(budgetMillion) || 1);
+  const price = Math.max(0, Number(priceMillion) || 0);
+  const r = price / budget;
+  if (r > 1.05) return 0;
+  const target = 0.75;
+  const dist = Math.abs(r - target) / target;
+  let s = 100 * (1 - dist);
+  if (r < 0.25) s -= 25;
+  if (r < 0.4) s -= 10;
+  if (r >= 0.92 && r <= 1.02) s += 12;
+  return Math.max(0, Math.min(100, s));
+}
+
 function calculateScore(vehicle, budgetMillion, minSeats, demand, priority) {
   const pr = priority || defaultPriority();
   let score = 0;
-  const priceRatio = vehicle.price_million / Math.max(budgetMillion, 1);
-  const priceScore = Math.max(0, 100 - priceRatio * 100);
-  score += priceScore * (pr.price ?? 0.25);
+  const priceScore = budgetFitScore(vehicle.price_million, budgetMillion);
+  score += priceScore * (pr.price ?? 0.15);
   const comfortScore = Math.min(100, (vehicle.features?.length || 0) * 10);
-  score += comfortScore * (pr.comfort ?? 0.2);
+  score += comfortScore * (pr.comfort ?? 0.25);
   const power = vehicle.motor_power_hp || 0;
   const perfScore = Math.min(100, (power / 70) * 100);
   score += perfScore * (pr.performance ?? 0.2);
@@ -115,10 +131,18 @@ function calculateScore(vehicle, budgetMillion, minSeats, demand, priority) {
     efficiencyScore = Math.max(0, 100 - (monthlyCost / 2_000_000) * 100);
   }
   efficiencyScore = Math.min(100, efficiencyScore);
-  score += efficiencyScore * (pr.range ?? pr.efficiency ?? 0.2);
-  if (vehicle.seats >= minSeats) score += 10;
+  score += efficiencyScore * (pr.range ?? pr.efficiency ?? 0.3);
+
+  const seatDelta = (vehicle.seats || 0) - minSeats;
+  if (seatDelta >= 0) score += 8 + Math.min(12, seatDelta * 2);
   else if (vehicle.type === "motobike") score -= 5;
   else score -= 15;
+
+  const d = String(demand || "balanced").toLowerCase();
+  if (d === "eco" && rangeKm >= 250) score += 6;
+  if (d === "comfort" && (vehicle.features?.length || 0) >= 8) score += 4;
+  if (d === "performance" && power >= 45) score += 4;
+
   const prosCount = vehicle.pros?.length || 0;
   const consCount = vehicle.cons?.length || 0;
   score += prosCount * 2;
