@@ -1,5 +1,6 @@
 import json
 import sys
+import time
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -22,6 +23,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+LOG_DIR = ROOT / "chat_logs"
+
 
 class RecommendBody(BaseModel):
     budget_million_max: int = Field(ge=10)
@@ -41,6 +44,30 @@ class CalculateBody(BaseModel):
 
 class CompareBody(BaseModel):
     vehicle_ids: list[str]
+
+class ChatLogBody(BaseModel):
+    session_id: str = Field(min_length=6, max_length=80)
+    app: str = "Hackathon/Demo"
+    model: str | None = None
+    messages: list[dict] = []
+    tool_events: list[dict] = []
+    meta: dict = {}
+
+
+def _safe_session_id(s: str) -> str:
+    keep = []
+    for ch in str(s):
+        if ch.isalnum() or ch in ("-", "_"):
+            keep.append(ch)
+    out = "".join(keep)[:80]
+    return out or f"session_{int(time.time())}"
+
+
+def _atomic_write_json(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(path)
 
 
 @app.post("/api/compare")
@@ -106,3 +133,22 @@ def api_calculate(body: CalculateBody):
 @app.get("/api/health")
 def health():
     return {"ok": True}
+
+
+@app.post("/api/chat_log")
+def api_chat_log(body: ChatLogBody):
+    sid = _safe_session_id(body.session_id)
+    now = int(time.time())
+    path = LOG_DIR / f"{sid}.json"
+
+    payload = {
+        "session_id": sid,
+        "updated_at_unix": now,
+        "app": body.app,
+        "model": body.model,
+        "messages": body.messages,
+        "tool_events": body.tool_events,
+        "meta": body.meta or {},
+    }
+    _atomic_write_json(path, payload)
+    return {"ok": True, "path": str(path)}

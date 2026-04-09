@@ -18,12 +18,12 @@ export function extractBudgetMillion(text) {
   );
   if (range) {
     const hi = parseNum(range[2]);
-    if (hi != null && hi >= 50) return Math.round(hi);
+    if (hi != null && hi >= 1) return Math.round(hi);
   }
   const range2 = t.match(/(\d[\d.,]*)\s*(den|toi|đến)\s*(\d[\d.,]*)\s*(trieu|trieu|tr\b)/);
   if (range2) {
     const hi = parseNum(range2[3]);
-    if (hi != null && hi >= 50) return Math.round(hi);
+    if (hi != null && hi >= 1) return Math.round(hi);
   }
 
   const ty = t.match(/(\d[\d.,]*)\s*(ty|ti\b|ti\b|billion)/);
@@ -35,7 +35,7 @@ export function extractBudgetMillion(text) {
   const tr = t.match(/(\d[\d.,]*)\s*(trieu|trieu|tr\b|m(?![a-z])|million)/);
   if (tr) {
     const v = parseNum(tr[1]);
-    if (v != null && v >= 50) return Math.round(v);
+    if (v != null && v >= 1 && v <= 200000) return Math.round(v);
   }
 
   const labeled = t.match(
@@ -45,7 +45,7 @@ export function extractBudgetMillion(text) {
     const v = parseNum(labeled[2]);
     if (v == null) return null;
     if (labeled[3]) return Math.round(v * 1000);
-    if (v >= 50 && v <= 200000) return Math.round(v);
+    if (v >= 1 && v <= 200000) return Math.round(v);
   }
 
   const plain = t.match(/\b(\d{2,5})\b/);
@@ -131,7 +131,7 @@ export function inferUsage(text) {
   const t = fold(text);
   if (t.match(/\b(di lam|di cong|van phong|office|commute)\b/)) return "di lam";
   if (t.match(/\b(gia dinh|family|tre em|con nho|dua don hoc)\b/)) return "gia dinh";
-  if (t.match(/\b(di xa|du lich|road trip|intercity|tinh)\b/)) return "di xa";
+  if (t.match(/\b(di xa|du lich|xuyen viet|xuyen quoc|road trip|intercity|tinh)\b/)) return "di xa";
   if (t.match(/\b(cong tac|business|khach hang|doi tac)\b/)) return "cong tac";
   const s = String(text).trim();
   if (s.length >= 2 && s.length <= 100) return s;

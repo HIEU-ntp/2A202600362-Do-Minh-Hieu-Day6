@@ -75,6 +75,36 @@ export function extractAgentProfile(blob) {
   };
 }
 
+export function mergeAgentProfileWithSticky(fresh, sticky) {
+  if (!sticky || typeof sticky !== "object") return fresh;
+  const hasNum = (x) => x != null && Number.isFinite(Number(x));
+  const budget =
+    hasNum(fresh.budget_million_max) ? Number(fresh.budget_million_max) : hasNum(sticky.budget_million_max)
+      ? Number(sticky.budget_million_max)
+      : null;
+  const family_size = hasNum(fresh.family_size) ? Number(fresh.family_size) : sticky.family_size ?? undefined;
+  const km_per_month = hasNum(fresh.km_per_month)
+    ? Number(fresh.km_per_month)
+    : sticky.km_per_month ?? undefined;
+  const fu = fresh.usage != null ? String(fresh.usage).trim() : "";
+  const usage = fu !== "" ? fresh.usage : sticky.usage ?? undefined;
+  const priority =
+    Array.isArray(fresh.priority) && fresh.priority.length > 0
+      ? fresh.priority
+      : Array.isArray(sticky.priority) && sticky.priority.length > 0
+        ? sticky.priority
+        : undefined;
+  const vehicle_type = fresh.vehicle_type || sticky.vehicle_type || "car";
+  return {
+    budget_million_max: budget,
+    family_size,
+    km_per_month,
+    usage,
+    priority,
+    vehicle_type,
+  };
+}
+
 export function wantsCostExplanation(text) {
   const t = fold(text);
   return /tra gop|trả góp|góp ngân|gop ngan|lai suat|lãi suất|chi phi|chi phí|tinh tien|tính tiền|bao nhieu|bao nhiêu|thang|tháng|installment|monthly payment/.test(

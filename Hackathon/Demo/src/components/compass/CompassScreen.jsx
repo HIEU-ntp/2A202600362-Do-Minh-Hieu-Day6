@@ -6,7 +6,13 @@ import {
   buildRecommendArgsFromProfile,
   createAgentToolHandler,
 } from "../../lib/agentTools.js";
-import { extractAgentProfile, mergeUserTexts, wantsCostExplanation } from "../../lib/extractAgentProfile.js";
+import {
+  extractAgentProfile,
+  mergeAgentProfileWithSticky,
+  mergeUserTexts,
+  wantsCostExplanation,
+} from "../../lib/extractAgentProfile.js";
+import { createChatSessionId, logChatSnapshot } from "../../lib/chatLogger.js";
 import { calculatorSummary } from "../../lib/calculator.js";
 import { appendLead } from "../../lib/leadStore.js";
 import {
@@ -31,7 +37,7 @@ const AGENT_BOOT =
 
 const SYSTEM_AGENT = `${baseSystemPrompt}
 
-[He thong] Ten tool: recommend_vehicle, calculate_cost, compare_vehicles. Khi da co ngan sac khach, goi recommend_vehicle. Khong tu bia gia hay thong so ngoai ket qua tool.`;
+[He thong] Ten tool: recommend_vehicle, calculate_cost, compare_vehicles. Khi da co ngan sac khach (ke ca ngan sac tu luot hoi thoai truoc), PHAI goi recommend_vehicle; khong tu liet ke xe chi tu mo hinh. Khong tu bia gia hay thong so ngoai ket qua tool.`;
 
 export default function CompassScreen({
   StatusBar,
@@ -70,6 +76,8 @@ export default function CompassScreen({
     vehicle_type: "car",
   });
   const intakeRef = useRef(intake);
+  const lastAgentProfileRef = useRef(null);
+  const chatLogSessionIdRef = useRef(createChatSessionId());
   useEffect(() => {
     intakeRef.current = intake;
   }, [intake]);
@@ -127,6 +135,8 @@ export default function CompassScreen({
   );
 
   function resetIntake() {
+    lastAgentProfileRef.current = null;
+    chatLogSessionIdRef.current = createChatSessionId();
     setIntake({
       budget_million_max: null,
       family_size: null,
@@ -223,17 +233,42 @@ export default function CompassScreen({
     setChatMessages(nextUi);
     setChatInput("");
     setIsBotTyping(true);
+    const toolEvents = [];
     try {
       const blob = mergeUserTexts(nextUi);
-      const profile = extractAgentProfile(blob);
+      const freshProfile = extractAgentProfile(blob);
+      const sticky = lastAgentProfileRef.current;
+      const profile = mergeAgentProfileWithSticky(freshProfile, sticky);
+      const usedStickyBudget =
+        (freshProfile.budget_million_max == null || !Number.isFinite(Number(freshProfile.budget_million_max))) &&
+        sticky != null &&
+        sticky.budget_million_max != null &&
+        Number.isFinite(Number(sticky.budget_million_max));
       const recArgs = buildRecommendArgsFromProfile(profile);
       let systemSuffix = "";
 
       let recJson = null;
       let recParsed = null;
       if (recArgs) {
+        toolEvents.push({
+          kind: "tool_pre_call",
+          name: "recommend_vehicle",
+          args: recArgs,
+          at_unix: Date.now(),
+        });
         recJson = await toolHandlerRef.current("recommend_vehicle", recArgs);
+        lastAgentProfileRef.current = { ...profile };
+        toolEvents.push({
+          kind: "tool_result",
+          name: "recommend_vehicle",
+          result_json: recJson,
+          at_unix: Date.now(),
+        });
         systemSuffix += `[TOOL_RESULT recommend_vehicle]\n${recJson}\n`;
+        if (usedStickyBudget) {
+          systemSuffix +=
+            "[He thong] Ngan sac duoc giu tu cau tra loi truoc; recommend_vehicle da chay lai voi muc dich/nhu cau moi trong JSON.\n";
+        }
         systemSuffix +=
           "Ban CHI duoc mo ta cac xe co trong top3 (model/variant/id/score). TUYET DOI KHONG neu ten xe khong co trong JSON (khong Fadil, Lux, o to xang neu khong co trong top3).\n";
         try {
@@ -247,11 +282,28 @@ export default function CompassScreen({
       }
 
       if (recArgs && wantsCostExplanation(value) && recParsed?.top3?.[0]?.id) {
+        toolEvents.push({
+          kind: "tool_pre_call",
+          name: "calculate_cost",
+          args: {
+            vehicle_id: recParsed.top3[0].id,
+            down_payment_percent: 20,
+            tenure_months: 60,
+            annual_interest_rate: 0.1,
+          },
+          at_unix: Date.now(),
+        });
         const calcJson = await toolHandlerRef.current("calculate_cost", {
           vehicle_id: recParsed.top3[0].id,
           down_payment_percent: 20,
           tenure_months: 60,
           annual_interest_rate: 0.1,
+        });
+        toolEvents.push({
+          kind: "tool_result",
+          name: "calculate_cost",
+          result_json: calcJson,
+          at_unix: Date.now(),
         });
         systemSuffix += `[TOOL_RESULT calculate_cost]\n${calcJson}\n`;
       }
@@ -264,14 +316,50 @@ export default function CompassScreen({
         systemSuffix,
         userAssistantMessages: apiMsgs,
         tools: AGENT_TOOL_DEFINITIONS,
-        onToolCall: (name, args) => toolHandlerRef.current(name, args),
+        onToolCall: async (name, args) => {
+          toolEvents.push({ kind: "tool_call", name, args, at_unix: Date.now() });
+          const out = await toolHandlerRef.current(name, args);
+          toolEvents.push({ kind: "tool_result", name, result_json: out, at_unix: Date.now() });
+          return out;
+        },
       });
       setChatMessages((prev) => [...prev, { role: "bot", text: reply }]);
+      try {
+        await logChatSnapshot({
+          session_id: chatLogSessionIdRef.current,
+          app: "Hackathon/Demo",
+          model: openaiModel,
+          messages: [...nextUi, { role: "bot", text: reply }],
+          tool_events: toolEvents,
+          meta: {
+            agent_mode: true,
+            used_sticky_budget: Boolean(usedStickyBudget),
+            has_budget: Boolean(recArgs),
+          },
+        });
+      } catch {
+        // ignore logging failures
+      }
     } catch (e) {
       setChatMessages((prev) => [
         ...prev,
         { role: "bot", text: `Loi OpenAI: ${e.message || e}` },
       ]);
+      try {
+        await logChatSnapshot({
+          session_id: chatLogSessionIdRef.current,
+          app: "Hackathon/Demo",
+          model: openaiModel,
+          messages: nextUi,
+          tool_events: toolEvents,
+          meta: {
+            agent_mode: true,
+            error: String(e?.message || e),
+          },
+        });
+      } catch {
+        // ignore logging failures
+      }
     } finally {
       setIsBotTyping(false);
     }
@@ -353,6 +441,8 @@ export default function CompassScreen({
               type="button"
               className={agentMode ? "pill-btn active" : "pill-btn"}
               onClick={() => {
+                lastAgentProfileRef.current = null;
+                chatLogSessionIdRef.current = createChatSessionId();
                 setAgentMode(true);
                 setChatMessages([{ role: "bot", text: AGENT_BOOT }]);
               }}
@@ -364,6 +454,8 @@ export default function CompassScreen({
             type="button"
             className={!agentMode ? "pill-btn active" : "pill-btn"}
             onClick={() => {
+              lastAgentProfileRef.current = null;
+              chatLogSessionIdRef.current = createChatSessionId();
               setAgentMode(false);
               setChatMessages([
                 {
