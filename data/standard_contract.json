@@ -21,6 +21,7 @@
       "colors": ["Jet Black", "Deep Ocean", "Brahminy White"],
       "price_list_million_vnd": 528,
       "price_promo_million_vnd": 490,
+      "monthly_charging_cost_vnd": 1000000,
       "currency": "VND",
       "battery_kwh": 87.7,
       "wltp_range_km": 400,

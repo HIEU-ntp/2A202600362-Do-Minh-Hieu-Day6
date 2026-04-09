@@ -19,6 +19,7 @@ def main() -> int:
         "colors",
         "price_list_million_vnd",
         "price_promo_million_vnd",
+        "monthly_charging_cost_vnd",
         "seats",
     ):
         assert k in v, k
