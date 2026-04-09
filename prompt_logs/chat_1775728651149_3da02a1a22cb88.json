@@ -1,0 +1,26 @@
+{
+  "session_id": "chat_1775728651149_3da02a1a22cb88",
+  "updated_at_unix": 1775728666,
+  "app": "Hackathon/Demo",
+  "model": "gpt-4o-mini",
+  "messages": [
+    {
+      "role": "bot",
+      "text": "Xin chao! Toi la tro ly VinFast (AI). Ban cu noi tu nhien: ngan sac, so nguoi, muc dich, km/thang, uu tien — toi se hoi them neu thieu va goi y xe bang du lieu chinh xac."
+    },
+    {
+      "role": "user",
+      "text": "tôi muốn tư vấn dòng xe điện cao cấp"
+    },
+    {
+      "role": "bot",
+      "text": "Cảm ơn bạn đã quan tâm đến dòng xe điện cao cấp của VinFast! Để tôi có thể tư vấn chính xác hơn, bạn vui lòng cho tôi biết thêm một số thông tin sau:\n\n1. Ngân sách của bạn là bao nhiêu (tối đa, đơn vị triệu hoặc tỷ VNĐ)?\n2. Số người trong gia đình bạn là bao nhiêu?\n3. Bạn thường di chuyển quãng đường bao xa mỗi tháng (km)?\n4. Mục đích sử dụng chính của xe là gì (đi làm, gia đình, đi xa, business...)?\n5. Bạn ưu tiên điều gì nhất (giá rẻ, tầm xa, trang bị, rộng rãi, hiệu suất)?\n\nNhững thông tin này sẽ giúp tôi gợi ý cho bạn những mẫu xe phù hợp nhất!"
+    }
+  ],
+  "tool_events": [],
+  "meta": {
+    "agent_mode": true,
+    "used_sticky_budget": false,
+    "has_budget": false
+  }
+}
