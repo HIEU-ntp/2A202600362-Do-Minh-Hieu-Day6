@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Sơ đồ quy trình trước sau cho VinFast AI Advisor">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f8fc"/>
+      <stop offset="100%" stop-color="#e9f0f8"/>
+    </linearGradient>
+    <linearGradient id="beforeHead" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#cc4b4b"/>
+      <stop offset="100%" stop-color="#b43b3b"/>
+    </linearGradient>
+    <linearGradient id="afterHead" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2f7f5f"/>
+      <stop offset="100%" stop-color="#24684d"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#6b7b8a"/>
+    </marker>
+    <style>
+      .title { font: 800 44px 'Segoe UI', Arial, sans-serif; fill: #1f2d3a; }
+      .subtitle { font: 500 24px 'Segoe UI', Arial, sans-serif; fill: #4c6072; }
+      .head { font: 800 30px 'Segoe UI', Arial, sans-serif; fill: #ffffff; }
+      .step { font: 600 24px 'Segoe UI', Arial, sans-serif; fill: #2d3f50; }
+      .sum { font: 800 24px 'Segoe UI', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+
+  <text x="800" y="74" text-anchor="middle" class="title">VinFast AI Advisor - Quy trình Trước và Sau</text>
+  <text x="800" y="112" text-anchor="middle" class="subtitle">Sơ đồ đơn giản được tạo từ nội dung poster</text>
+
+  <rect x="90" y="150" width="670" height="690" rx="16" fill="#ffffff" stroke="#d8e1ea" stroke-width="2"/>
+  <rect x="840" y="150" width="670" height="690" rx="16" fill="#ffffff" stroke="#d8e1ea" stroke-width="2"/>
+
+  <rect x="90" y="150" width="670" height="74" rx="16" fill="url(#beforeHead)"/>
+  <rect x="840" y="150" width="670" height="74" rx="16" fill="url(#afterHead)"/>
+  <text x="425" y="197" text-anchor="middle" class="head">TRƯỚC (Hiện tại)</text>
+  <text x="1175" y="197" text-anchor="middle" class="head">SAU (Có AI)</text>
+
+  <rect x="130" y="250" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="156" y="296" class="step">1. Khách tự tìm giá/thông số nhiều kênh</text>
+  <line x1="425" y1="324" x2="425" y2="348" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="130" y="360" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="156" y="406" class="step">2. Tự ước lượng khả năng tài chính</text>
+  <line x1="425" y1="434" x2="425" y2="458" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="130" y="470" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="156" y="516" class="step">3. Hỏi showroom/sale để lọc model</text>
+  <line x1="425" y1="544" x2="425" y2="568" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="130" y="580" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="156" y="626" class="step">4. Tự tính chi phí sở hữu</text>
+  <line x1="425" y1="654" x2="425" y2="678" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="130" y="690" width="590" height="74" rx="10" fill="#fbecec"/>
+  <text x="156" y="736" class="step">5. Vẫn mơ hồ, cần tư vấn thêm</text>
+
+  <rect x="880" y="250" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="906" y="296" class="step">1. Mở Compass chatbot</text>
+  <line x1="1175" y1="324" x2="1175" y2="348" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="880" y="360" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="906" y="406" class="step">2. Nhập ngân sách, số người, usage, km/tháng</text>
+  <line x1="1175" y1="434" x2="1175" y2="458" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="880" y="470" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="906" y="516" class="step">3. AI trả Top 3 kèm lý do (tool-grounded)</text>
+  <line x1="1175" y1="544" x2="1175" y2="568" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="880" y="580" width="590" height="74" rx="10" fill="#eef3f8"/>
+  <text x="906" y="626" class="step">4. Mở calculator xem chi phí 5 năm</text>
+  <line x1="1175" y1="654" x2="1175" y2="678" stroke="#6b7b8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="880" y="690" width="590" height="74" rx="10" fill="#e8f6ee"/>
+  <text x="906" y="736" class="step">5. Gửi lead / đăng ký lái thử trong app</text>
+
+  <text x="425" y="812" text-anchor="middle" class="sum" fill="#b43b3b">~7 steps | 20-30 min</text>
+  <text x="1175" y="812" text-anchor="middle" class="sum" fill="#24684d">~4-5 steps | 5-8 min</text>
+</svg>
