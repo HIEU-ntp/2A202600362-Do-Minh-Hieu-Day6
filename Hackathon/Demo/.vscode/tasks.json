@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Demo App",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev",
+				"--",
+				"--host",
+				"0.0.0.0"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/Hackathon/Demo"
+			},
+			"isBackground": true,
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true
+			},
+			"problemMatcher": {
+				"owner": "vite",
+				"pattern": [],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "VITE v",
+					"endsPattern": "Local:"
+				}
+			}
+		}
+	]
+}
