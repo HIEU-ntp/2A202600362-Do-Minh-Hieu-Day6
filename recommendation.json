@@ -1,0 +1,472 @@
+{
+  "vehicles": [
+    {
+      "model": "VF 3",
+      "variant": "Standard",
+      "segment": "SUV compact",
+      "price_million": 283,
+      "type": "car",
+      "color": ["Trắng Pearl", "Đen Obsidian", "Xám Titanium", "Xanh Ocean", "Đỏ Radiant"],
+      "seats": 5,
+      "battery_kwh": 40,
+      "range_km": 200,
+      "motor_power_hp": 30,
+      "drivetrain": "RWD",
+      "dimensions": "4238 x 1750 x 1609 mm",
+      "trunk_liters": 422,
+      "charging_time_dc": "24 phút (10%-70%)",
+      "charging_time_ac": "9-10 giờ",
+      "monthly_charging_cost_vnd": 900000,
+      "family_size_min": 2,
+      "family_size_max": 4,
+      "use_cases": ["đi phố", "gia định nhỏ", "di chuyển hàng ngày"],
+      "features": [
+        "Màn hình 10.25 inch",
+        "ADAS cơ bản (cảnh báo va chạm, giữ làn đường)",
+        "Camera 360°",
+        "Ghế chỉnh điện",
+        "Kết nối Apple CarPlay / Android Auto"
+      ],
+      "pros": [
+        "Giá cả phải chăng",
+        "Tiết kiệm điện",
+        "Quãng đường tôn giáo hợp lý",
+        "Ngoại hình đẹp mắt"
+      ],
+      "cons": [
+        "Quãng đường không tới 300km",
+        "Công suất động cơ khiêm tốn",
+        "Không phù hợp chuyến đường dài"
+      ]
+    },
+    {
+      "model": "Minio Green",
+      "variant": "Entry",
+      "segment": "SUV compact",
+      "price_million": 252,
+      "type": "car",
+      "color": ["Trắng Glacier", "Đen Midnight", "Xám Cosmic", "Xanh Electric"],
+      "seats": 5,
+      "battery_kwh": 32,
+      "range_km": 150,
+      "motor_power_hp": 25,
+      "drivetrain": "RWD",
+      "dimensions": "4100 x 1720 x 1580 mm",
+      "trunk_liters": 380,
+      "charging_time_dc": "20 phút (10%-70%)",
+      "charging_time_ac": "8 giờ",
+      "monthly_charging_cost_vnd": 750000,
+      "family_size_min": 2,
+      "family_size_max": 4,
+      "use_cases": ["học sinh", "nhân viên văn phòng", "di chuyển trong thành phố"],
+      "features": [
+        "Màn hình 8 inch",
+        "Ghế vải thoáng khí",
+        "Gương chỉnh điện",
+        "Điều hòa tự động",
+        "Cảm biến áp suất lốp"
+      ],
+      "pros": [
+        "Giá rẻ nhất trong dòng",
+        "Tiết kiệm năng lượng",
+        "Dễ lái cho học viên mới",
+        "Bảo trì chi phí thấp"
+      ],
+      "cons": [
+        "Quãng đường ngắn nhất (150km)",
+        "Trang bị cơ bản",
+        "Không phù hợp gia đình lớn"
+      ]
+    },
+    {
+      "model": "VF 5",
+      "variant": "Eco",
+      "segment": "SUV nhỏ gọn",
+      "price_million": 497,
+      "type": "car",
+      "color": ["Trắng Pearl", "Đen Obsidian", "Xám Titanium", "Xanh Ocean", "Cam Dynamic"],
+      "seats": 5,
+      "battery_kwh": 50,
+      "range_km": 220,
+      "motor_power_hp": 35,
+      "drivetrain": "RWD",
+      "dimensions": "4220 x 1800 x 1600 mm",
+      "trunk_liters": 460,
+      "charging_time_dc": "30 phút (10%-70%)",
+      "charging_time_ac": "11 giờ",
+      "monthly_charging_cost_vnd": 1100000,
+      "family_size_min": 2,
+      "family_size_max": 5,
+      "use_cases": ["gia đình trẻ", "đi chơi cuối tuần", "di chuyển hàng ngày"],
+      "features": [
+        "Màn hình 10.25 inch",
+        "Ghế da tổng hợp",
+        "Sunroof",
+        "Hệ thống âm thanh 6 loa",
+        "Camera lùi có lưới hướng dẫn"
+      ],
+      "pros": [
+        "Quãng đường vừa phải (220km)",
+        "Công suất tốt",
+        "Trang bị hiện đại",
+        "Thoải mái cho gia đình"
+      ],
+      "cons": [
+        "Giá cao hơn VF3",
+        "Chi phí sạc cao",
+        "Chưa đủ cho chuyến dài"
+      ]
+    },
+    {
+      "model": "VF 6",
+      "variant": "Plus",
+      "segment": "SUV cỡ trung",
+      "price_million": 647,
+      "type": "car",
+      "color": ["Trắng Crystal", "Đen Elegance", "Xám Magnetic", "Xanh Navy", "Đỏ Passion"],
+      "seats": 5,
+      "battery_kwh": 59.6,
+      "range_km": 250,
+      "motor_power_hp": 40,
+      "drivetrain": "RWD",
+      "dimensions": "4238 x 1850 x 1610 mm",
+      "trunk_liters": 500,
+      "charging_time_dc": "35 phút (10%-70%)",
+      "charging_time_ac": "12 giờ",
+      "monthly_charging_cost_vnd": 1300000,
+      "family_size_min": 2,
+      "family_size_max": 5,
+      "use_cases": ["gia đình 5 người", "chuyến đi cuối tuần", "công vụ"],
+      "features": [
+        "Màn hình 12.3 inch",
+        "Ghế da cao cấp",
+        "Sunroof toàn cảnh",
+        "Sạc không dây điện thoại",
+        "ADAS nâng cao (tự động vào lane)"
+      ],
+      "pros": [
+        "Quãng đường dài (250km)",
+        "Ngoại hình cao cấp",
+        "Trang bị đầy đủ",
+        "Thoải mái và yên tĩnh"
+      ],
+      "cons": [
+        "Giá cao",
+        "Chi phí sạc cao",
+        "Vẫn chưa đủ cho chuyến xa"
+      ]
+    },
+    {
+      "model": "VF 7",
+      "variant": "Premium",
+      "segment": "SUV cỡ lớn",
+      "price_million": 751,
+      "type": "car",
+      "color": ["Trắng Pearl", "Đen Deep", "Xám Graphite", "Xanh Sapphire", "Vàng Champagne"],
+      "seats": 7,
+      "battery_kwh": 70,
+      "range_km": 280,
+      "motor_power_hp": 45,
+      "drivetrain": "RWD",
+      "dimensions": "4740 x 1900 x 1650 mm",
+      "trunk_liters": 650,
+      "charging_time_dc": "40 phút (10%-70%)",
+      "charging_time_ac": "13 giờ",
+      "monthly_charging_cost_vnd": 1500000,
+      "family_size_min": 4,
+      "family_size_max": 7,
+      "use_cases": ["gia đình lớn", "chuyến du lịch", "chở khách"],
+      "features": [
+        "Màn hình 12.8 inch",
+        "Ghế da premium 7 chỗ",
+        "Khoang trần cỏ",
+        "Hệ thống khí hòa sophisiticated",
+        "Phanh tay điện tử",
+        "Kết nối 5G"
+      ],
+      "pros": [
+        "7 chỗ ngồi thoải mái",
+        "Quãng đường tốt (280km)",
+        "Trang bị siêu cao cấp",
+        "Mạnh mẽ và ổn định"
+      ],
+      "cons": [
+        "Giá đắt nhất (tương đương)",
+        "Tiêu thụ nhiên liệu cao",
+        "Khó tìm chỗ đỗ"
+      ]
+    },
+    {
+      "model": "VF 8",
+      "variant": "Plus",
+      "segment": "SUV cỡ trung-lớn",
+      "price_million": 917,
+      "type": "car",
+      "color": ["Trắng Premium", "Đen Midnight", "Xám Platinum", "Xanh Mystique", "Đỏ Fiery"],
+      "seats": 5,
+      "battery_kwh": 75,
+      "range_km": 300,
+      "motor_power_hp": 50,
+      "drivetrain": "RWD/AWD",
+      "dimensions": "4710 x 1910 x 1670 mm",
+      "trunk_liters": 580,
+      "charging_time_dc": "45 phút (10%-70%)",
+      "charging_time_ac": "14 giờ",
+      "monthly_charging_cost_vnd": 1700000,
+      "family_size_min": 2,
+      "family_size_max": 5,
+      "use_cases": ["những người thích tốc độ", "chuyến dài", "off-road nhẹ"],
+      "features": [
+        "Màn hình 13.6 inch",
+        "Bộ ghế da nappa",
+        "Giáp gió kép",
+        "Hệ thống Harman Kardon",
+        "Chế độ lái tùy chỉnh",
+        "Sạc nhanh xToàn thời"
+      ],
+      "pros": [
+        "Quãng đường xa nhất(300km)",
+        "Hiệu suất cao",
+        "Mạnh mẽ và linh hoạt",
+        "Trang bị cao cấp"
+      ],
+      "cons": [
+        "Giá rất cao",
+        "Tiêu thụ điện nhiều",
+        "Chỉ 5 chỗ ngồi"
+      ]
+    },
+    {
+      "model": "VF 9",
+      "variant": "Luxury",
+      "segment": "Flagship SUV",
+      "price_million": 1349,
+      "type": "car",
+      "color": ["Trắng Luxury", "Đen Onyx", "Xám Metallic", "Xanh Royal", "Vàng Gold"],
+      "seats": 6,
+      "battery_kwh": 101,
+      "range_km": 350,
+      "motor_power_hp": 70,
+      "drivetrain": "AWD",
+      "dimensions": "5060 x 1980 x 1700 mm",
+      "trunk_liters": 750,
+      "charging_time_dc": "50 phút (10%-70%)",
+      "charging_time_ac": "15 giờ",
+      "monthly_charging_cost_vnd": 2000000,
+      "family_size_min": 3,
+      "family_size_max": 6,
+      "use_cases": ["lãnh đạo", "chuyên chở", "du lịch sang trọng"],
+      "features": [
+        "Màn hình 14.6 inch tương tác",
+        "Ghế da 6 chỗ hạng nhất",
+        "Tích hợp AI tương tác",
+        "Hệ thống âm thanh 12 loa",
+        "Cửa sổ toàn panoramic",
+        "Sạc nhanh siêu mạnh"
+      ],
+      "pros": [
+        "Quãng đường siêu dài (350km)",
+        "Công suất cao nhất",
+        "Ngoại hình ấn tượng",
+        "Trang bị không đối thủ"
+      ],
+      "cons": [
+        "Giá bán sang VIP",
+        "Chi phí bảo dưỡng cao",
+        "Tỷ lệ mất giá nhanh"
+      ]
+    },
+    {
+      "model": "Motio",
+      "variant": "Standard",
+      "segment": "Xe máy Pico",
+      "price_million": 12,
+      "type": "motobike",
+      "color": ["Đen Classic", "Trắng Clean", "Xám Urban"],
+      "seats": 1,
+      "battery_kwh": 1.7,
+      "range_km": 80,
+      "motor_power_hp": 4,
+      "drivetrain": "Bánh sau",
+      "dimensions": "1600 x 650 x 1100 mm",
+      "trunk_liters": 20,
+      "charging_time_dc": "N/A",
+      "charging_time_ac": "3-4 giờ",
+      "monthly_charging_cost_vnd": 200000,
+      "family_size_min": 1,
+      "family_size_max": 1,
+      "use_cases": ["học sinh", "di chuyển ngắn", "xe dự phòng"],
+      "features": [
+        "Gọi nhẹ",
+        "Dễ giữ gìn",
+        "Tiết kiệm điện",
+        "Thiết kế hiện đại"
+      ],
+      "pros": [
+        "Giá rẻ nhất",
+        "Tiết kiệm điện tối đa",
+        "Gọn gàng",
+        "Di chuyển trong thành phố"
+      ],
+      "cons": [
+        "Quãng đường ngắn",
+        "Chỉ chở 1 người",
+        "Không phù hợp xa tải"
+      ]
+    },
+    {
+      "model": "Flazz",
+      "variant": "Base",
+      "segment": "Xe máy điện",
+      "price_million": 15.5,
+      "type": "motobike",
+      "color": ["Đen Gloss", "Trắng Matte", "Xám Satin", "Xanh Sport"],
+      "seats": 1,
+      "battery_kwh": 2.1,
+      "range_km": 100,
+      "motor_power_hp": 5,
+      "drivetrain": "Bánh sau",
+      "dimensions": "1700 x 700 x 1120 mm",
+      "trunk_liters": 35,
+      "charging_time_dc": "N/A",
+      "charging_time_ac": "4-5 giờ",
+      "monthly_charging_cost_vnd": 250000,
+      "family_size_min": 1,
+      "family_size_max": 1,
+      "use_cases": ["sinh viên", "nhân viên văn phòng", "di chuyển mix"],
+      "features": [
+        "Màn hình kỹ thuật số",
+        "Chế độ eco & sport",
+        "GPS tích hợp",
+        "Cảm biến áp suất lốp"
+      ],
+      "pros": [
+        "Giá phải chăng",
+        "Quãng đường tốt hơn (100km)",
+        "Cấu hình hiện đại",
+        "Thoải mái cho đi lại"
+      ],
+      "cons": [
+        "Chỉ 1 chỗ",
+        "Chưa đủ cho chuyến xa"
+      ]
+    },
+    {
+      "model": "EVO Neo",
+      "variant": "Comfort",
+      "segment": "Xe máy tầm trung",
+      "price_million": 17.8,
+      "type": "motobike",
+      "color": ["Đen Racing", "Trắng Pearl", "Xám Metallic", "Xanh Neon", "Cam Evolution"],
+      "seats": 1,
+      "battery_kwh": 2.7,
+      "range_km": 110,
+      "motor_power_hp": 6,
+      "drivetrain": "Bánh sau",
+      "dimensions": "1750 x 720 x 1140 mm",
+      "trunk_liters": 45,
+      "charging_time_dc": "N/A",
+      "charging_time_ac": "5-6 giờ",
+      "monthly_charging_cost_vnd": 300000,
+      "family_size_min": 1,
+      "family_size_max": 2,
+      "use_cases": ["chở bạn", "di chuyển hàng ngày", "giao hàng nhẹ"],
+      "features": [
+        "Khoang để đồ rộng",
+        "Chế độ lái sport",
+        "Hệ thống phanh ABS",
+        "Đèn LED tự động",
+        "Cảnh báo đầu lồng"
+      ],
+      "pros": [
+        "Quãng đường vừa phải",
+        "Trang bị an toàn tốt",
+        "Gọi vừa tải",
+        "Giá cả hợp lý"
+      ],
+      "cons": [
+        "Chỉ chở 2 người tối đa",
+        "Vẫn đắt hơn Flazz"
+      ]
+    },
+    {
+      "model": "Klara S",
+      "variant": "Performance",
+      "segment": "Xe máy cao cấp",
+      "price_million": 36.5,
+      "type": "motobike",
+      "color": ["Đen Premium", "Trắng Exclusive", "Xám Titanium", "Xanh Midnight", "Đỏ Crimson"],
+      "seats": 1,
+      "battery_kwh": 4.2,
+      "range_km": 180,
+      "motor_power_hp": 12,
+      "drivetrain": "Bánh sau",
+      "dimensions": "1900 x 750 x 1180 mm",
+      "trunk_liters": 60,
+      "charging_time_dc": "N/A",
+      "charging_time_ac": "7-8 giờ",
+      "monthly_charging_cost_vnd": 450000,
+      "family_size_min": 1,
+      "family_size_max": 2,
+      "use_cases": ["người thích tốc độ", "giao hàng chuyên", "chuyên chở"],
+      "features": [
+        "Khung thép cao cấp",
+        "Hệ thống treo khí nén",
+        "Màn hình TFT 5inch",
+        "Kết nối Bluetooth",
+        "Chế độ lái 4 cấp",
+        "ABS + Traction control"
+      ],
+      "pros": [
+        "Quãng đường dài (180km)",
+        "Công suất cao",
+        "Trang bị sang trọng",
+        "An toàn tốt nhất"
+      ],
+      "cons": [
+        "Giá cao nhất xe máy",
+        "Chi phí bảo trì lớn"
+      ]
+    },
+    {
+      "model": "Theon S",
+      "variant": "Ultra",
+      "segment": "Siêu xe máy",
+      "price_million": 56.9,
+      "type": "motobike",
+      "color": ["Đen Ultra", "Trắng Executive", "Xám Graphite", "Xanh Electric", "Vàng Limited"],
+      "seats": 1,
+      "battery_kwh": 5.5,
+      "range_km": 250,
+      "motor_power_hp": 20,
+      "drivetrain": "Dual Motor",
+      "dimensions": "2000 x 800 x 1200 mm",
+      "trunk_liters": 80,
+      "charging_time_dc": "N/A",
+      "charging_time_ac": "9-10 giờ",
+      "monthly_charging_cost_vnd": 600000,
+      "family_size_min": 1,
+      "family_size_max": 2,
+      "use_cases": ["những người thích thể thao", "chuyên gia giao hàng", "chuyên chở sang trọng"],
+      "features": [
+        "Động cơ kép mạnh mẽ",
+        "Phanh hyperscale",
+        "Hệ thống treo tích hợp AI",
+        "Màn hình TFT 7 inch",
+        "Chế độ tự lái bán tự động",
+        "Hệ thống chống trượt cao cấp"
+      ],
+      "pros": [
+        "Quãng đường siêu dài (250km)",
+        "Công suất siêu cao",
+        "Công nghệ tối tân",
+        "Hiệu năng tuyệt đỉnh"
+      ],
+      "cons": [
+        "Giá siêu cao",
+        "Chi phí bảo dưỡng rất lớn",
+        "Tỷ lệ mất giá cao"
+      ]
+    }
+  ]
+}
