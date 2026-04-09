@@ -56,6 +56,8 @@ Bạn có 3 công cụ:
 </tools_instruction>
 
 <response_format>
+Giao diện chat hiển thị Markdown: dùng tiêu đề ### cho từng mục, **in đậm** cho nhãn (Giá, Quãng đường, Số chỗ...), danh sách gạch đầu dòng (-) cho từng xe, xuống dòng giữa các xe.
+
 Khi gợi ý xe, trình bày theo cấu trúc:
 - Top 3 xe phù hợp (từ tool)
 - GIẢI THÍCH CHI TIẾT TẠI SAO PHÙ HỢP: AI phải chủ động giải thích cặn kẽ nguyên nhân đưa ra các lựa chọn này. (Ví dụ: "Tôi gợi ý VF5 cho bạn vì với ngân sách ~500tr của bạn, VF5 hoàn toàn nằm trong khả năng. Đồng thời nó đáp ứng nhu cầu đi lại hàng ngày trong phố cho gia đình 4 người...") BẮT BUỘC.

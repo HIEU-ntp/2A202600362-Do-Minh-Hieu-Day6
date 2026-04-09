@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AuthScreen from "./components/auth/AuthScreen";
 import CompassScreen from "./components/compass/CompassScreen";
+import {
+  clearSession,
+  createGuestSession,
+  createMemberSession,
+  readSession,
+  writeSession,
+} from "./lib/authSession.js";
 
 const TAB_HOME = "home";
 const TAB_COMPASS = "compass";
+const TAB_PROFILE = "profile";
 
 function StatusBar() {
   return (
@@ -125,7 +134,12 @@ function BottomTabBar({ activeTab, onChangeTab }) {
       >
         <CompassIcon />
       </button>
-      <button type="button" className="tab-btn" aria-label="Account" aria-disabled="true">
+      <button
+        type="button"
+        className={activeTab === TAB_PROFILE ? "tab-btn active" : "tab-btn"}
+        aria-label="Account"
+        onClick={() => onChangeTab(TAB_PROFILE)}
+      >
         <ProfileIcon />
       </button>
     </nav>
@@ -156,76 +170,20 @@ function CarVisual({ variant }) {
   );
 }
 
-function LoginScreen({ email, password, setEmail, setPassword, onLogin }) {
+function ProfileScreen({ session, onLogout, StatusBar: SB, VinFastMark: Mark, BottomTabBar: TabBar, activeTab, onChangeTab }) {
   return (
-    <div className="screen login-screen">
-      <StatusBar />
-
-      <button type="button" className="lang-pill" aria-label="Language switcher">
-        <span className="lang-globe" aria-hidden="true">◌</span>
-        <span>EN</span>
+    <div className="screen profile-screen">
+      <SB />
+      <div className="profile-head">
+        <Mark small />
+        <h2>Tai khoan</h2>
+        <p className="profile-kind">{session?.kind === "guest" ? "Khach (guest)" : "Thanh vien"}</p>
+        {session?.email && <p className="profile-email">{session.email}</p>}
+      </div>
+      <button type="button" className="primary-btn" onClick={onLogout}>
+        Log out
       </button>
-
-      <div className="login-mark-wrap">
-        <VinFastMark />
-      </div>
-
-      <div className="login-fields">
-        <label>
-          <span>Email Address</span>
-          <input
-            type="email"
-            placeholder="Enter your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-
-        <label>
-          <span>Password</span>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-
-        <div className="login-row">
-          <label className="check-row">
-            <input type="checkbox" defaultChecked />
-            <span>Keep Me Logged In</span>
-          </label>
-          <button type="button" className="text-link">
-            Forgot password
-          </button>
-        </div>
-
-        <button
-          type="button"
-          className="primary-btn"
-          onClick={onLogin}
-          disabled={!email.trim() || !password.trim()}
-        >
-          Log In
-        </button>
-
-        <div className="face-id" aria-hidden="true">
-          <div className="face-id-frame">
-            <span />
-            <span />
-            <span />
-            <span />
-            <em />
-          </div>
-        </div>
-
-        <p className="register-line">
-          Don’t have an account? <button type="button">Register</button>
-        </p>
-
-        <p className="version-line">Version VN 2.19.18</p>
-      </div>
+      <TabBar activeTab={activeTab} onChangeTab={onChangeTab} />
     </div>
   );
 }
@@ -309,40 +267,83 @@ function HomeScreen({ activeTab, onChangeTab }) {
 }
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [session, setSession] = useState(null);
   const [activeTab, setActiveTab] = useState(TAB_HOME);
-  const [email, setEmail] = useState("dohieunt1102@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signupName, setSignupName] = useState("");
+  const [authMode, setAuthMode] = useState("login");
+
+  useEffect(() => {
+    setSession(readSession());
+  }, []);
+
+  const isLoggedIn = Boolean(session);
+
+  function persistAndEnter(next) {
+    writeSession(next);
+    setSession(next);
+    setActiveTab(TAB_HOME);
+  }
+
+  function logout() {
+    clearSession();
+    setSession(null);
+    setActiveTab(TAB_HOME);
+  }
+
+  let mainScreen = null;
+  if (isLoggedIn) {
+    if (activeTab === TAB_COMPASS) {
+      mainScreen = (
+        <CompassScreen
+          StatusBar={StatusBar}
+          VinFastMark={VinFastMark}
+          BellIcon={BellIcon}
+          BottomTabBar={BottomTabBar}
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
+          session={session}
+        />
+      );
+    } else if (activeTab === TAB_PROFILE) {
+      mainScreen = (
+        <ProfileScreen
+          session={session}
+          onLogout={logout}
+          StatusBar={StatusBar}
+          VinFastMark={VinFastMark}
+          BottomTabBar={BottomTabBar}
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
+        />
+      );
+    } else {
+      mainScreen = <HomeScreen activeTab={activeTab} onChangeTab={setActiveTab} />;
+    }
+  } else {
+    mainScreen = (
+      <AuthScreen
+        email={email}
+        password={password}
+        signupName={signupName}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        setSignupName={setSignupName}
+        mode={authMode}
+        setMode={setAuthMode}
+        onMemberLogin={() => persistAndEnter(createMemberSession(email, email))}
+        onGuest={() => persistAndEnter(createGuestSession())}
+        onSignup={() => persistAndEnter(createMemberSession(email, signupName || email))}
+        StatusBar={StatusBar}
+        VinFastMark={VinFastMark}
+      />
+    );
+  }
 
   return (
     <main className="app-page">
-      <div className="phone-frame">
-        {isLoggedIn ? (
-          activeTab === TAB_COMPASS ? (
-            <CompassScreen
-              StatusBar={StatusBar}
-              VinFastMark={VinFastMark}
-              BellIcon={BellIcon}
-              BottomTabBar={BottomTabBar}
-              activeTab={activeTab}
-              onChangeTab={setActiveTab}
-            />
-          ) : (
-            <HomeScreen activeTab={activeTab} onChangeTab={setActiveTab} />
-          )
-        ) : (
-          <LoginScreen
-            email={email}
-            password={password}
-            setEmail={setEmail}
-            setPassword={setPassword}
-            onLogin={() => {
-              setIsLoggedIn(true);
-              setActiveTab(TAB_HOME);
-            }}
-          />
-        )}
-      </div>
+      <div className="phone-frame">{mainScreen}</div>
     </main>
   );
 }
